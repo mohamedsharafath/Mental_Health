@@ -5,11 +5,11 @@ const FeatureSection = () => {
     const [inputVisible, setInputVisible] = useState(false);
     const [userInput, setUserInput] = useState('');
     const [response, setResponse] = useState(null);
+    const [feature, setFeature] = useState(''); // Track which feature is active
 
-    const handleFeatureClick = (feature) => {
-        if (feature === 'detect-anxiety') {
-            setInputVisible(true); // Show the input section for detecting anxiety
-        }
+    const handleFeatureClick = (selectedFeature) => {
+        setFeature(selectedFeature); // Set the current feature
+        setInputVisible(true); // Show the input section for the selected feature
     };
 
     const handleInputChange = (event) => {
@@ -19,10 +19,21 @@ const FeatureSection = () => {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
         try {
-            const res = await axios.post('http://127.0.0.1:8000/predict', {
-                statement: userInput
-            });
-            setResponse(res.data); // Set response from the API
+            const apiUrl =
+                feature === 'detect-anxiety'
+                    ? 'http://127.0.0.1:8000/predict_depression'  // API for anxiety detection
+                    : feature === 'detect-suicide'
+                    ? 'http://127.0.0.1:8000/predict_suicide'  // API for suicide detection
+                    :  feature === 'detect-schizophrenia'
+                    ? 'http://127.0.0.1:8000/predict_schizophrenia'
+                    : "";
+
+            if (apiUrl) {
+                const res = await axios.post(apiUrl, {
+                    statement: userInput
+                });
+                setResponse(res.data); // Set response from the API
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -40,34 +51,31 @@ const FeatureSection = () => {
           <div class="wave -three"></div>
 
             <div className="feature-cards row">
-                {/* <button className="col-md-3 feature" onClick={() => handleFeatureClick('detect-schizophrenia')}>
-                    <div className="feature-text">
-                        <h2>Detect Schizophrenia, Anxiety and Depression</h2>
-                        <p>Upload a WhatsApp chat...</p>
-                    </div>
-                </button> */}
 
-                <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-anxiety')}>
-                <p class="feature-icon">
-                  &#129504;
-              </p>
-                    <div className="feature-text">
-                        <h2>Detect <br />Depression / Anxiety</h2>
-                        <p>Upload a WhatsApp chat where you or your friend have expressed your emotions or enter your Twitter username to understand whether there are traces of Anxiety.</p>
-                    </div>
-                </button>
+                    <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-anxiety')}>
+                        <p className="feature-icon">&#129504;</p>
+                        <div className="feature-text">
+                            <h2>Detect <br />Depression / Anxiety</h2>
+                            <p>Enter your input to understand whether there are traces of Anxiety.</p>
+                        </div>
+                    </button>
 
-                <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-depression')}>
-                <p class="feature-icon">
-                  &#129504;
-              </p>
-                    <div className="feature-text">
-                        <h2>Detect <br /> Depression</h2>
-                        <p>Upload a WhatsApp chat where you or your friend have expressed your emotions or enter your Twitter username to understand whether there are traces of Depression.</p>
-                    </div>
-                </button>
+                    <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-suicide')}>
+                        <p className="feature-icon">&#129504;</p>
+                        <div className="feature-text">
+                            <h2>Detect <br /> Suicide Intention</h2>
+                            <p>Enter your input to understand whether there are traces of Suicide Intention.</p>
+                        </div>
+                    </button>
 
-                <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-bipolar')}>
+                    <button className="col-md-3 feature" onClick={() => handleFeatureClick('detect-schizophrenia')}>
+                        <p className="feature-icon">&#129504;</p>
+                        <div className="feature-text">
+                            <h2>Detect Schizophrenia, Anxiety and Depression</h2>
+                            <p>Upload a WhatsApp chat...</p>
+                        </div>
+                    </button> 
+                {/* <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-bipolar')}>
                 <p class="feature-icon">
                   &#129504;
               </p>
@@ -75,7 +83,7 @@ const FeatureSection = () => {
                         <h2>Detect <br /> Bipolar Disorder</h2>
                         <p>Upload a WhatsApp chat where you or your friend have expressed your emotions or enter your Twitter username to understand whether there are traces of Bipolar Disorder.</p>
                     </div>
-                </button>
+                </button> */}
 
                 <button className="feature col-md-3" onClick={() => handleFeatureClick('group-therapy')}>
                 <p class="feature-icon">
@@ -153,27 +161,27 @@ const FeatureSection = () => {
         </div>
         <div>
         {inputVisible && (
-                    <div className="input-section">
-                        <form onSubmit={handleSubmit}>
-                            <textarea 
-                                value={userInput}
-                                onChange={handleInputChange}
-                                placeholder="Enter your statement here..."
-                                rows="4"
-                                cols="50"
-                            />
-                            <button type="submit">Submit</button>
-                        </form>
+                <div className="input-section">
+                    <form onSubmit={handleSubmit}>
+                        <textarea
+                            value={userInput}
+                            onChange={handleInputChange}
+                            placeholder="Enter your statement here..."
+                            rows="4"
+                            cols="50"
+                        />
+                        <button type="submit">Submit</button>
+                    </form>
 
-                        {/* Display API Response */}
-                        {response && (
-                            <div className="response">
-                                <h3>Response:</h3>
-                                <p>{response.message}</p>
-                            </div>
-                        )}
-                    </div>
-                )}
+                    {/* Display API Response */}
+                    {response && (
+                        <div className="response">
+                            <h3>Response:</h3>
+                            <p>{response.message}</p>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
         </>
     );
