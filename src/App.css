@@ -71,28 +71,31 @@ body{
     from {top:0px;}
     to   {top:80vh;}
 } */
-
+/* .content{
+  align-items: center;
+  justify-content: center;
+} */
 .content h1 {
   color: var(--white);
   z-index: 1;
   position: absolute;
   top: 30vh;
-  left: 46vw;
+  left: 41vw;
 }
 
 .content h2 {
   color: var(--white);
   z-index: 1;
   position: absolute;
-  top: 36vh;
+  top: 37vh;
   left: 35vw;
 }
 
 .content p {
   color: var(--lightGray) ;
   position: absolute;
-  top: 42vh;
-  left: 32vw;
+  top: 44vh;
+  left: 36vw;
   text-align: center;
 }
 
