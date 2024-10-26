@@ -30,7 +30,7 @@ function Navbar() {
             </div>
 
             <div className="signup-container">
-                <button className="register-btn" onClick={handleLogin}>Log In</button>
+                <button className="register-btn" onClick={handleLogin}>Sign In</button>
             </div>
         </nav>
     );
