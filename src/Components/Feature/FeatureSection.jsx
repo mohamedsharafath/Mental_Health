@@ -75,15 +75,6 @@ const FeatureSection = () => {
                             <p>Upload a WhatsApp chat...</p>
                         </div>
                     </button> 
-                {/* <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-bipolar')}>
-                <p class="feature-icon">
-                  &#129504;
-              </p>
-                    <div className="feature-text">
-                        <h2>Detect <br /> Bipolar Disorder</h2>
-                        <p>Upload a WhatsApp chat where you or your friend have expressed your emotions or enter your Twitter username to understand whether there are traces of Bipolar Disorder.</p>
-                    </div>
-                </button> */}
 
                 <button className="feature col-md-3" onClick={() => handleFeatureClick('group-therapy')}>
                 <p class="feature-icon">
@@ -115,13 +106,6 @@ const FeatureSection = () => {
                         <p>Making language a bridge, not a barrier, Mint is available in different Indian regional languages.</p>
                     </div>
                 </button>
-
-                {/* <button className="feature col-md-3" onClick={() => handleFeatureClick('visualization')}>
-                    <div className="feature-text">
-                        <h2>Health and Activity Visualization</h2>
-                        <p>Feature Description</p>
-                    </div>
-                </button> */}
 
                 <button className="feature col-md-3" onClick={() => handleFeatureClick('passwordless-authentication')}>
                 <p class="feature-icon">
