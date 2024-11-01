@@ -1,15 +1,19 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
+
 const FeatureSection = () => {
     const [inputVisible, setInputVisible] = useState(false);
     const [userInput, setUserInput] = useState('');
     const [response, setResponse] = useState(null);
-    const [feature, setFeature] = useState(''); // Track which feature is active
+    const [feature, setFeature] = useState('');
+    const [featureName, setFeatureName] = useState(''); // To display feature name in the form heading
+    const inputSectionRef = useRef(null); // Reference to scroll into view
 
-    const handleFeatureClick = (selectedFeature) => {
-        setFeature(selectedFeature); // Set the current feature
-        setInputVisible(true); // Show the input section for the selected feature
+    const handleFeatureClick = (selectedFeature, featureDisplayName) => {
+        setFeature(selectedFeature);
+        setFeatureName(featureDisplayName); // Set feature name for form heading
+        setInputVisible(true);
+        inputSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     const handleInputChange = (event) => {
@@ -17,14 +21,14 @@ const FeatureSection = () => {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
         try {
             const apiUrl =
                 feature === 'detect-anxiety'
-                    ? 'http://127.0.0.1:8000/predict_depression'  // API for anxiety detection
+                    ? 'http://127.0.0.1:8000/predict_depression'
                     : feature === 'detect-suicide'
-                    ? 'http://127.0.0.1:8000/predict_suicide'  // API for suicide detection
-                    :  feature === 'detect-schizophrenia'
+                    ? 'http://127.0.0.1:8000/predict_suicide'
+                    : feature === 'detect-schizophrenia'
                     ? 'http://127.0.0.1:8000/predict_schizophrenia'
                     : "";
 
@@ -32,7 +36,7 @@ const FeatureSection = () => {
                 const res = await axios.post(apiUrl, {
                     statement: userInput
                 });
-                setResponse(res.data); // Set response from the API
+                setResponse(res.data);
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -49,33 +53,30 @@ const FeatureSection = () => {
             <div class="wave -one"></div>
           <div class="wave -two"></div>
           <div class="wave -three"></div>
-
             <div className="feature-cards row">
+                <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-anxiety', 'Detect Depression / Anxiety')}>
+                    <p className="feature-icon">&#129504;</p>
+                    <div className="feature-text">
+                        <h2>Detect <br />Depression / Anxiety</h2>
+                        <p>Input your text to analyze potential signs of depression or anxiety using our specialized detection model.</p>
 
-                    <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-anxiety')}>
-                        <p className="feature-icon">&#129504;</p>
-                        <div className="feature-text">
-                            <h2>Detect <br />Depression / Anxiety</h2>
-                            <p>Enter your input to understand whether there are traces of Anxiety.</p>
-                        </div>
-                    </button>
+                    </div>
+                </button>
+                <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-suicide', 'Detect Suicide Intention')}>
+                    <p className="feature-icon">&#129504;</p>
+                    <div className="feature-text">
+                        <h2>Detect <br /> Suicide Intention</h2>
+                        <p>Provide an input to assess for any indications of suicidal intent, offering early insights into mental health risks.</p>
 
-                    <button className="feature col-md-3" onClick={() => handleFeatureClick('detect-suicide')}>
-                        <p className="feature-icon">&#129504;</p>
-                        <div className="feature-text">
-                            <h2>Detect <br /> Suicide Intention</h2>
-                            <p>Enter your input to understand whether there are traces of Suicide Intention.</p>
-                        </div>
-                    </button>
-
-                    <button className="col-md-3 feature" onClick={() => handleFeatureClick('detect-schizophrenia')}>
-                        <p className="feature-icon">&#129504;</p>
-                        <div className="feature-text">
-                            <h2>Detect Schizophrenia, Anxiety and Depression</h2>
-                            <p>Upload a WhatsApp chat...</p>
-                        </div>
-                    </button> 
-
+                    </div>
+                </button>
+                <button className="col-md-3 feature" onClick={() => handleFeatureClick('detect-schizophrenia', 'Detect Schizophrenia')}>
+                    <p className="feature-icon">&#129504;</p>
+                    <div className="feature-text">
+                        <h2>Detect Schizophrenia</h2>
+                        <p>Upload a WhatsApp chat to evaluate content for markers of schizophrenia, anxiety, and depression, empowering informed mental health insights.</p>
+                    </div>
+                </button>
                 <button className="feature col-md-3" onClick={() => handleFeatureClick('group-therapy')}>
                 <p class="feature-icon">
                       
@@ -83,7 +84,8 @@ const FeatureSection = () => {
                                   </p>
                     <div className="feature-text">
                         <h2>Group Therapy</h2>
-                        <p>Get access to video rooms where you can converse with people going through the same disorders and talk your feelings out. Also recommended for schizophrenic patients who are not allowed to have access to group therapies due to their violent nature.</p>
+                        <p>Access virtual support groups where individuals with similar experiences can connect, especially valuable for individuals with restricted group therapy access.</p>
+
                     </div>
                 </button>
 
@@ -93,7 +95,8 @@ const FeatureSection = () => {
               </p>
                     <div className="feature-text">
                         <h2>Real-Time Location Tracking</h2>
-                        <p>Useful for caretakers of schizophrenic patients who need to keep tabs on their location. Also useful for doctors to control the addictive and destructive behaviour of the patients.</p>
+                        <p>Enables caretakers and healthcare providers to monitor the location of patients, enhancing safety and support for behavioral management.</p>
+
                     </div>
                 </button>
 
@@ -103,7 +106,8 @@ const FeatureSection = () => {
               </p>
                     <div className="feature-text">
                         <h2>Available in Regional Indian Languages</h2>
-                        <p>Making language a bridge, not a barrier, Mint is available in different Indian regional languages.</p>
+                        <p>Our application is accessible in multiple regional languages, bridging language gaps and ensuring inclusivity across diverse communities.</p>
+
                     </div>
                 </button>
 
@@ -114,7 +118,8 @@ const FeatureSection = () => {
                                 </p>
                     <div className="feature-text">
                         <h2>Passwordless Authentication</h2>
-                        <p>Considering the fact that patients with mental disorders also suffer from forgetfulness, they no longer need to remember their password for Mint as SAWO's passwordless authentication backs and speeds up the authentication process.</p>
+                        <p>Supports password-free access to streamline login for individuals who may have memory impairments, providing a seamless and secure experience.</p>
+
                     </div>
                 </button>
 
@@ -125,7 +130,8 @@ const FeatureSection = () => {
                                 </p>
                     <div className="feature-text">
                         <h2>Voice Enabled</h2>
-                        <p>With the power of Alan AI, Mint's voice assistant - Minty brings out the possibility of this application to be used efficiently with persons suffering from various motor as well as visual impairments and is also a support system to the technically challenged individuals.</p>
+                        <p>Experience hands-free navigation with Mint’s voice assistant, tailored to support users with visual, motor, or technical challenges.</p>
+
                     </div>
                 </button>
 
@@ -136,32 +142,36 @@ const FeatureSection = () => {
                                 </p>
                     <div className="feature-text">
                         <h2>Art Therapy</h2>
-                        <p>Art has proved to offer a calming sensation to people with mental disorders; with Mint's art-board, you can unleash your creativity in every direction.</p>
+                        <p>Engage in creative self-expression with Mint’s art therapy feature, designed to offer a calming and therapeutic experience.</p>
+
                     </div>
                 </button>
+                {/* Add other feature buttons as needed, with corresponding feature names */}
             </div>
-            
-
         </div>
-        <div>
-        {inputVisible && (
-                <div className="input-section">
-                    <form onSubmit={handleSubmit}>
+
+        {/* Input Section with Feature Heading */}
+        <div ref={inputSectionRef} className='feature-container'>
+            {inputVisible && (
+                <div className="input-section feature-container">
+                    <h2>{featureName}</h2> {/* Display selected feature name here */}
+                    <form onSubmit={handleSubmit} className="input-form">
                         <textarea
                             value={userInput}
                             onChange={handleInputChange}
                             placeholder="Enter your statement here..."
                             rows="4"
                             cols="50"
+                            className="input-textarea"
                         />
-                        <button type="submit">Submit</button>
+                        <button type="submit" className="submit-button">Submit</button>
                     </form>
-
+                
                     {/* Display API Response */}
                     {response && (
-                        <div className="response">
-                            <h3>Response:</h3>
-                            <p>{response.message}</p>
+                        <div className="response-container">
+                            <h3 className="response-header">Response:</h3>
+                            <p className="response-message">{response.message}</p>
                         </div>
                     )}
                 </div>
