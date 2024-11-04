@@ -189,7 +189,7 @@ function Canvas({ color, brushSize, tool }) {
             <div className="toolbar">
                 <button onClick={handleUndo} disabled={paths.length === 0}>Undo</button>
                 <button onClick={handleRedo} disabled={redoStack.length === 0}>Redo</button>
-                <select value={brushType} onChange={handleBrushTypeChange}>
+                <select className='canvas_select' value={brushType} onChange={handleBrushTypeChange}>
                     <option value="solid">Solid</option>
                     <option value="dotted">Dotted</option>
                     <option value="dashed">Dashed</option>

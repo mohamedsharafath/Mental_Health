@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-button {
+.toolbar_button {
     padding: 8px;
     cursor: pointer;
     border: none;

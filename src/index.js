@@ -21,6 +21,7 @@ root.render(
             <HeroSection />
             <FeatureSection />
             <KiranHelpline />
+
   </React.StrictMode>
 );
 
