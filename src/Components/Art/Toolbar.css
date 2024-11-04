@@ -1,0 +1,23 @@
+.toolbar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.color-picker, .brush-size {
+    cursor: pointer;
+}
+
+button {
+    padding: 8px;
+    cursor: pointer;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
