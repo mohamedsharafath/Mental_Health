@@ -11,16 +11,17 @@ import FeatureSection from './Components/Feature/FeatureSection';
 import KiranHelpline from './Components/KiranHelpline/KiranHelpline';
 import SuicidePrediction from './Suicide_Detection/Suicide_Prediction';
 import PaintApp from './Components/Art/PaintApp';
-
+import SpeechToText from './Components/Speech/SpeechToText'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-  {/* <PaintApp/> */}
-            <Navbar />
+  {/* <PaintApp/> */} 
+           <Navbar />
             <HeroSection />
             <FeatureSection />
             <KiranHelpline />
+             {/* <SpeechToText /> */}
 
   </React.StrictMode>
 );
