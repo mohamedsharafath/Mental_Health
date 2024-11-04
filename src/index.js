@@ -7,6 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PaintApp from './Components/Art/PaintApp';
 
+import FeatureSection from './Components/Feature/FeatureSection';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
