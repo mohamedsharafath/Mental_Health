@@ -1,0 +1,23 @@
+.canvas {
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    cursor: crosshair;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.canvas_select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+

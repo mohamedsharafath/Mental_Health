@@ -10,10 +10,13 @@ import HeroSection from './Components/HeroSection/HeroSection';
 import FeatureSection from './Components/Feature/FeatureSection';
 import KiranHelpline from './Components/KiranHelpline/KiranHelpline';
 import SuicidePrediction from './Suicide_Detection/Suicide_Prediction';
+import PaintApp from './Components/Art/PaintApp';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  {/* <PaintApp/> */}
             <Navbar />
             <HeroSection />
             <FeatureSection />
