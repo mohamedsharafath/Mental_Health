@@ -1,18 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+// import GroupTherapy from './pages/GroupTherapy';
+// import LocationTracking from './pages/LocationTracking';
+// import Multilingual from './pages/Multilingual';
+// import PasswordlessAuthentication from './pages/PasswordlessAuthentication';
+// import VoiceEnabled from './pages/VoiceEnabled';
+// import ArtTherapy from './pages/ArtTherapy';
 import PaintApp from './Components/Art/PaintApp';
 
-import SpeechToText from './Components/Speech/SpeechToText'
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-  <Router>
+function Routing() {
+    return (
+        <Router>
             <Routes>
                 <Route path="/" element={<App />} />
                 {/* <Route path="/group-therapy" element={<GroupTherapy />} />
@@ -23,8 +22,7 @@ root.render(
                 <Route path="/art-therapy" element={<PaintApp />} />
             </Routes>
         </Router>
+    );
+}
 
-  </React.StrictMode>
-);
-
-reportWebVitals();
+export default Routing;
