@@ -8,8 +8,12 @@ const FeatureSection = () => {
     const [response, setResponse] = useState(null);
     const [feature, setFeature] = useState('');
     const [featureName, setFeatureName] = useState('');
+    const [instagramUsername, setInstagramUsername] = useState('');
+    const [scrapeResponse, setScrapeResponse] = useState(null);
     const inputSectionRef = useRef(null);
     const navigate = useNavigate();
+
+    
 
     const handleFeatureClick = (selectedFeature, featureDisplayName) => {
         const internalRoutes = {
@@ -35,6 +39,10 @@ const FeatureSection = () => {
         setUserInput(event.target.value);
     };
 
+    const handleInstagramChange = (event) => {
+        setInstagramUsername(event.target.value);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -53,9 +61,31 @@ const FeatureSection = () => {
                 });
                 setResponse(res.data);
             }
+            // Handle Instagram scraping feature
+            if (feature === 'scrape-instagram') {
+                const scrapeApiUrl = 'http://127.0.0.1:8000/scrape_instagram';
+                const scrapeRes = await axios.post(scrapeApiUrl, {
+                    username: instagramUsername
+                });
+                setScrapeResponse(scrapeRes.data);
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    };
+    const handleScrape = async(event) =>{
+        event.preventDefault();
+        try{
+            const scrapeApiUrl = 'http://127.0.0.1:8000/scrape_instagram';
+                const scrapeRes = await axios.post(scrapeApiUrl, {
+                    username: instagramUsername
+                });
+                setScrapeResponse(scrapeRes.data);
+        }
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
     };
 
     return (
@@ -115,7 +145,7 @@ const FeatureSection = () => {
                     >
                         <p className="feature-icon">&#128205;</p>
                         <div className="feature-text">
-                            <h2>Real-Time Location Tracking</h2>
+                            <h2>CBT Excersises</h2>
                             <p>Enables caretakers and healthcare providers to monitor the location of patients, enhancing safety and support for behavioral management.</p>
                         </div>
                     </button>
@@ -125,7 +155,7 @@ const FeatureSection = () => {
                     >
                         <p className="feature-icon">&#129309;</p>
                         <div className="feature-text">
-                            <h2>Regional Language Support</h2>
+                            <h2>Self Care Routine</h2>
                             <p>Our application is accessible in multiple regional languages, bridging language gaps and ensuring inclusivity across diverse communities.</p>
                         </div>
                     </button>
@@ -135,7 +165,7 @@ const FeatureSection = () => {
                     >
                         <p className="feature-icon">&#128273;</p>
                         <div className="feature-text">
-                            <h2>Passwordless Authentication</h2>
+                            <h2>Guided Journaling</h2>
                             <p>Supports password-free access to streamline login for individuals who may have memory impairments, providing a seamless and secure experience.</p>
                         </div>
                     </button>
@@ -145,7 +175,7 @@ const FeatureSection = () => {
                     >
                         <p className="feature-icon">&#128483;</p>
                         <div className="feature-text">
-                            <h2>Voice Enabled</h2>
+                            <h2>Mood Tracker</h2>
                             <p>Experience hands-free navigation with our voice assistant, tailored to support users with visual, motor, or technical challenges.</p>
                         </div>
                     </button>
@@ -178,12 +208,53 @@ const FeatureSection = () => {
                             />
                             <button type="submit" className="submit-button">Submit</button>
                         </form>
+                        <br></br>
+                        <h5>OR</h5>
+                        <br></br>
+                        <h2>Drop Your Instagram Username below</h2>
+                        <form onSubmit={handleScrape} className="input-form">
+                        <input
+                                        type="text"
+                                        value={instagramUsername}
+                                        onChange={handleInstagramChange}
+                                        placeholder="Enter Instagram Username"
+                                        className="input-textarea"
+                                        required
+                            />
+                            <button type="submit" className="submit-button">Submit</button>
+                        </form>
                         {response && (
                             <div className="response-container">
                                 <h3 className="response-header">Response:</h3>
                                 <p className="response-message">{response.message}</p>
                             </div>
                         )}
+                        {scrapeResponse && (
+    <div>
+        <h3>Followers: {scrapeResponse.followers_count}</h3>
+        
+        <h4>Captions:</h4>
+        <ul>
+            {scrapeResponse.captions && scrapeResponse.captions.length > 0 ? (
+                scrapeResponse.captions.map((caption, index) => (
+                    <li key={index}>{caption}</li>
+                ))
+            ) : (
+                <li>Couldn't get the Captions...</li>
+            )}
+        </ul>
+        
+        <h4>Hashtags:</h4>
+        <p>
+            {scrapeResponse.hashtags && scrapeResponse.hashtags.length > 0 ? (
+                scrapeResponse.hashtags.join(', ')
+            ) : (
+                "Couldn't get the Hashtags..."
+            )}
+        </p>
+    </div>
+)}
+
                     </div>
                 )}
             </div>

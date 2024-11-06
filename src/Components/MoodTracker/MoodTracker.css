@@ -1,0 +1,91 @@
+/* Add this to your CSS file */
+
+.mood-tracker-container {
+    background: linear-gradient(135deg, #a8e063, #56ab2f);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.mood-tracker-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mood-options {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.mood-option {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin: 10px;
+}
+
+.mood-option:hover {
+    transform: scale(1.1);
+}
+
+.mood-emoji {
+    font-size: 2.5rem;
+}
+
+.mood-label {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.mood-summary, .mood-history {
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    color: #333;
+}
+
+.mood-summary h3, .mood-history h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.mood-summary p {
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+}
+
+.mood-history {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.mood-history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: #fff;
+}
