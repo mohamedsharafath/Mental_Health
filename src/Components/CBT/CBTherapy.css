@@ -1,0 +1,19 @@
+.cbt-section {
+    background-color: #fff3e6;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.cbt-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cbt-item {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #ffebcc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

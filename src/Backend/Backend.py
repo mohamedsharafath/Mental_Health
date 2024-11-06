@@ -3,9 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import logging
-import os
+# import os
 import preprocess_kgptalkie as ps
-import re
+import re,pickle,os
+import requests
+from bs4 import BeautifulSoup
+
+import instaloader
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -150,6 +154,118 @@ async def predict_schizophrenia_endpoint(input: UserInput):
     except Exception as e:
         logging.error(f"Error during schizophrenia prediction: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+    
+# Define a Pydantic model for the request body
+# class InstagramRequest(BaseModel):
+#     username: str
+
+# # Function to scrape Instagram data
+# def scrape_instagram_data(username: str):
+#     L = instaloader.Instaloader()
+#     try:
+#         profile = instaloader.Profile.from_username(L.context, username)
+#         followers_count = profile.followers
+#         hashtags = []
+#         captions = []
+        
+#         # Iterate over the posts to get captions and hashtags
+#         for post in profile.get_posts():
+#             captions.append(post.caption)
+#             hashtags.extend(post.caption_hashtags)
+        
+#         return {
+#             "followers_count": followers_count,
+#             "captions": captions,
+#             "hashtags": hashtags
+#         }
+#     except Exception as e:
+#         raise HTTPException(status_code=400, detail=f"Error scraping Instagram: {str(e)}")
+
+# # Endpoint to handle Instagram data scraping
+# @app.post("/scrape_instagram")
+# def scrape_data(request: InstagramRequest):
+#     data = scrape_instagram_data(request.username)
+#     return data
+
+
+
+class InstagramRequest(BaseModel):
+    username: str
+
+def scrape_instagram_data(username):
+    url = f"https://www.instagram.com/{username}/?__a=1&__d=dis"
+    
+    # Update with your actual session ID from Instagram
+    session_cookies = {
+        "sessionid": "70202134107%3AKg4eO7xJCNP2I4%3A14%3AAYepMOc5EwRHH1X5v0j0K9dHoGA54yERngvd3nHvIg"  # Replace with your session ID from Instagram
+    }
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36',
+        'Referer': f'https://www.instagram.com/{username}/',
+    }
+    
+    try:
+        response = requests.get(url, headers=headers, cookies=session_cookies)
+
+        # Check response status
+        if response.status_code == 200:
+            content_type = response.headers.get('Content-Type', '')
+            
+            # Handle JSON response
+            if 'application/json' in content_type:
+                try:
+                    profile_data = response.json()
+                    user_data = profile_data['graphql']['user']
+                    followers_count = user_data['edge_followed_by']['count']
+                    captions = [
+                        edge['node']['edge_media_to_caption']['edges'][0]['node']['text']
+                        for edge in user_data['edge_owner_to_timeline_media']['edges']
+                        if edge['node']['edge_media_to_caption']['edges']  # Ensure there's caption text
+                    ]
+
+                    return {
+                        "followers_count": followers_count,
+                        "captions": captions,
+                        "status": "success"
+                    }
+                except (KeyError, ValueError) as e:
+                    print("Error parsing JSON:", e)
+                    return {"error": "Failed to parse JSON structure. Instagram data format might have changed."}
+            
+            # Handle HTML response
+            elif 'text/html' in content_type:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                titles = soup.find_all('title')
+                title_texts = [title.get_text() for title in titles]
+                return {"status": "success", "titles": title_texts}
+
+            # Handle plain text response
+            elif 'text/plain' in content_type:
+                return {"status": "success", "content": response.text}
+
+            else:
+                print("Unexpected Content-Type:", content_type)
+                return {"error": "Received unexpected Content-Type."}
+
+        elif response.status_code == 302:
+            return {"error": "Instagram requires login. Please update the cookies."}
+        
+        else:
+            print(f"Request failed with status code: {response.status_code}")
+            return {"error": f"Request failed with status code: {response.status_code}"}
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed. Error: {e}")
+        return {"error": "Failed to connect to Instagram."}
+
+@app.post("/scrape_instagram")
+def scrape_data(data: InstagramRequest):
+    scraped_data = scrape_instagram_data(data.username)
+    if "error" in scraped_data:
+        raise HTTPException(status_code=400, detail=scraped_data["error"])
+    return scraped_data
+
 
 if __name__ == "__main__":
     import uvicorn
