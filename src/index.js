@@ -10,6 +10,8 @@ import GuidedJournal from './Components/Journaling/GuidedJournal';
 import MoodTracker from './Components/MoodTracker/MoodTracker';
 import SelfCareRoutine from './Components/SelfCare/SelfCare';
 import CBTExercises from './Components/CBT/CBTherapy';
+import VideoConference from './Components/VideoConference/VideoConference';
+import SignInForm from './Components/SignIn/Signin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +19,8 @@ root.render(
   <Router>
             <Routes>
                 <Route path="/" element={<App />} />
-                {/* <Route path="/group-therapy" element={<GroupTherapy />} /> */}
+                <Route path="/signin" element={<SignInForm />} />
+                <Route path="/group-therapy" element={<VideoConference />} />
                 <Route path="/location-tracking" element={<CBTExercises />} />
               <Route path="/multilingual" element={<SelfCareRoutine />} />
               <Route path="/voice-enabled" element={<MoodTracker />} />
