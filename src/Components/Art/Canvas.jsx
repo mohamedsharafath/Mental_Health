@@ -10,9 +10,72 @@ function Canvas({ color, brushSize, tool }) {
     const [currentPath, setCurrentPath] = useState(null);
     const [brushType, setBrushType] = useState('solid'); // Default brush type
 
-    useEffect(() => {
-        redraw(); // Redraw canvas whenever paths change
-    }, [paths]);
+    // Helper functions defined above usage
+    const getCursorPosition = (e) => {
+        const rect = canvasRef.current.getBoundingClientRect();
+        return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+        };
+    };
+
+    const drawLine = (ctx, start, end) => {
+        ctx.beginPath();
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
+        ctx.stroke();
+    };
+
+    const drawRectangle = (ctx, start, end) => {
+        ctx.beginPath();
+        ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
+        ctx.stroke();
+    };
+
+    const drawCircle = (ctx, start, end) => {
+        const radius = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
+        ctx.beginPath();
+        ctx.arc(start.x, start.y, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+    };
+
+    const handleUndo = () => {
+        if (paths.length === 0) return;
+        const newPaths = [...paths];
+        const lastPath = newPaths.pop();
+        setPaths(newPaths);
+        setRedoStack([lastPath, ...redoStack]);
+    };
+
+    const handleRedo = () => {
+        if (redoStack.length === 0) return;
+        const newRedoStack = [...redoStack];
+        const redoPath = newRedoStack.shift();
+        setPaths([...paths, redoPath]);
+        setRedoStack(newRedoStack);
+    };
+
+    const setBrushStyle = (ctx, brushType, color, brushSize) => {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = brushSize;
+        ctx.lineCap = "round";
+
+        switch (brushType) {
+            case 'dotted':
+                ctx.setLineDash([brushSize, brushSize * 2]);
+                break;
+            case 'dashed':
+                ctx.setLineDash([brushSize * 4, brushSize * 4]);
+                break;
+            case 'textured':
+                ctx.setLineDash([brushSize, brushSize * 2]);
+                ctx.lineJoin = "bevel";
+                break;
+            default: // solid
+                ctx.setLineDash([]);
+                break;
+        }
+    };
 
     const startDrawing = (e) => {
         const { x, y } = getCursorPosition(e);
@@ -112,72 +175,6 @@ function Canvas({ color, brushSize, tool }) {
                 }
             }
         });
-    };
-
-    const setBrushStyle = (ctx, brushType, color, brushSize) => {
-        ctx.strokeStyle = color;
-        ctx.lineWidth = brushSize;
-        ctx.lineCap = "round";
-
-        switch (brushType) {
-            case 'dotted':
-                ctx.setLineDash([brushSize, brushSize * 2]);
-                break;
-            case 'dashed':
-                ctx.setLineDash([brushSize * 4, brushSize * 4]);
-                break;
-            case 'textured':
-                ctx.setLineDash([brushSize, brushSize * 2]);
-                ctx.lineJoin = "bevel";
-                break;
-            default: // solid
-                ctx.setLineDash([]);
-                break;
-        }
-    };
-
-    const drawLine = (ctx, start, end) => {
-        ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-        ctx.stroke();
-    };
-
-    const drawRectangle = (ctx, start, end) => {
-        ctx.beginPath();
-        ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
-        ctx.stroke();
-    };
-
-    const drawCircle = (ctx, start, end) => {
-        const radius = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
-        ctx.beginPath();
-        ctx.arc(start.x, start.y, radius, 0, 2 * Math.PI);
-        ctx.stroke();
-    };
-
-    const getCursorPosition = (e) => {
-        const rect = canvasRef.current.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-        };
-    };
-
-    const handleUndo = () => {
-        if (paths.length === 0) return;
-        const newPaths = [...paths];
-        const lastPath = newPaths.pop();
-        setPaths(newPaths);
-        setRedoStack([lastPath, ...redoStack]);
-    };
-
-    const handleRedo = () => {
-        if (redoStack.length === 0) return;
-        const newRedoStack = [...redoStack];
-        const redoPath = newRedoStack.shift();
-        setPaths([...paths, redoPath]);
-        setRedoStack(newRedoStack);
     };
 
     const handleBrushTypeChange = (e) => {

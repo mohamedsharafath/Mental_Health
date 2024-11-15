@@ -1,19 +1,178 @@
-.cbt-section {
-    background-color: #fff3e6;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
+/* Container */
+.cbt-container {
+    max-width: 900px; /* Wider container for professional look */
+    margin: 40px auto;
+    padding: 35px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.cbt-list {
+/* Header */
+.cbt-header {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Exercise List */
+.cbt-exercise-list,
+.cbt-answers-list {
     list-style: none;
     padding: 0;
 }
 
-.cbt-item {
-    margin: 10px 0;
+/* Exercise Item */
+.cbt-exercise-item,
+.cbt-answer-item {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Prompt */
+.cbt-prompt,
+.cbt-answer-prompt {
+    font-size: 1.1rem;
+    color: #34495e;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Text Area */
+.cbt-textarea,
+.cbt-edit-textarea {
+    width: 100%;
+    height: 120px;
     padding: 15px;
-    background-color: #ffebcc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #bdc3c7;
+    border-radius: 12px;
+    font-size: 1rem;
+    resize: vertical;
+    background-color: #f7f9fa;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.cbt-textarea:focus,
+.cbt-edit-textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    background-color: #ecf0f1;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+}
+
+/* Submit Button */
+.cbt-submit-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #3498db;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cbt-submit-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.cbt-submit-button:active {
+    transform: translateY(1px);
+}
+
+/* Answers Section */
+.cbt-answers-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #bdc3c7;
+    background-color: #f9fbfd;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cbt-answers-header {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+/* Answer Container */
+.cbt-answer-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cbt-edit-textarea {
+    flex: 1;
+}
+
+.cbt-edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #e67e22;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.cbt-edit-button:hover {
+    color: #d35400;
+    transform: scale(1.2);
+}
+
+/* Thank You Note */
+.cbt-thank-you {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Pen Icon */
+.cbt-edit-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #8e44ad;
+    transition: transform 0.2s ease;
+}
+
+.cbt-edit-icon:hover {
+    transform: rotate(15deg) scale(1.1);
+    color: #9b59b6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cbt-container {
+        padding: 20px;
+    }
+
+    .cbt-header {
+        font-size: 1.8rem;
+    }
+
+    .cbt-textarea,
+    .cbt-edit-textarea {
+        height: 100px;
+    }
+
+    .cbt-submit-button {
+        font-size: 1.1rem;
+    }
 }
