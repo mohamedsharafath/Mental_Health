@@ -1,0 +1,71 @@
+.video-conference {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .video-conference h1 {
+    color: #2a5d84;
+    margin-bottom: 20px;
+  }
+  
+  .controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .controls label {
+    font-size: 1rem;
+    color: #2a5d84;
+  }
+  
+  .controls input {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #d3d3d3;
+  }
+  
+  .controls button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #2a5d84;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .controls button:disabled {
+    background-color: #b0c4de;
+  }
+  
+  .notification {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  .video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d3d3d3;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+  }
+  
+  .local-video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  

@@ -1,9 +1,12 @@
 import React from 'react';
 import BrandLogo from './brandLogo.png'
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
+    const navigate = useNavigate();
     const handleLogin = () => {
-        window.location.href = "./Authentication/signIn.html";
+        // window.location.href = "./Authentication/signIn.html";
+        navigate('/signin')
     };
 
     return (
